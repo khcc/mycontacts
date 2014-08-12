@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>MyContacts</title>
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+</head>
+<body>
+<div>
+
+    {% for message in get_flashed_messages() %}
+        <div class="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div>
+        <h1>Everyone can be your friend!</h1>
+        <p>Add your contacts, send email, smile forever!</p>
+    </div>
+    <div id="search_bar">
+        <form action="/contacts" method="GET">
+            <div>
+                <input type="text" id="q" name = "q" placeholder="Search for a contact">
+            </div>
+            <div>
+                <button type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <form action="/contacts/" method="POST">
+            <div>
+                <label for="txt_name">Name</label>
+                <input type="text" name="name" placeholder="Name">
+            </div>
+            <div>
+                <label for="txt_phone">Phone</label>
+                <input type="tel" name="phone" placeholder="Phone">
+            </div>
+            <div>
+                <label for="txt_email">Email</label>
+                <input type="email" name="email" placeholder="Email">
+            </div>
+            <div>
+                <label for="txt_address">Address</label>
+                <input type="text" name="address" placeholder="Address">
+            </div>
+            <div>
+                <label for="txt_location">Location</label>
+                <input type="text" name="location" placeholder="Location">
+            </div>
+            <div>
+                <button type="submit">Create</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <ul>
+            {% for contact in contacts %}
+            <li data-cid =  "{{ contact.cid }}">
+                <div class="contact-image">
+                    <a href="">
+                        <img src="{{ contact.img }}">
+                    </a>
+                </div>
+                <div class="contact-date">{{ moment(contact.time).fromNow() }}</div>
+                <div class="contact-details">
+                    <ul>
+                        <li>{{ contact.name }}</li>
+                        <li>{{ contact.phone }}</li>
+                        <li><a href="/email/{{ contact.cid }}">{{ contact.email }}</a> </li>
+                        <li>{{ contact.address }}</li>
+                        <li>{{ contact.location }}</li>
+                        <li>
+                            <a href="/contacts/remove/{{ contact.cid }}">Remove</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
